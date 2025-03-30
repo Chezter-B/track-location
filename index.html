@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตามพิกัด</title>
+</head>
+<body>
+    <a href="#" id="trackLink">📍 คลิกที่นี่เพื่อติดตามพิกัดและไป TikTok</a>
+    <p id="output"></p>
+
+    <script>
+        document.getElementById("trackLink").addEventListener("click", function(event) {
+            event.preventDefault(); // ป้องกันการเปลี่ยนหน้า
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+
+                    // ส่งพิกัดไปที่เซิร์ฟเวอร์ (หรือทำอะไรที่คุณต้องการ)
+                    localStorage.setItem("latitude", lat);
+                    localStorage.setItem("longitude", lon);
+
+                    document.getElementById("output").innerHTML = `✅ พิกัดของคุณถูกบันทึกแล้ว: ${lat}, ${lon}`;
+
+                    // เปลี่ยนไปที่ TikTok
+                    window.location.href = "https://www.tiktok.com";
+                }, function(error) {
+                    document.getElementById("output").innerHTML = "❌ ไม่สามารถดึงพิกัดได้: " + error.message;
+                });
+            } else {
+                document.getElementById("output").innerHTML = "เบราว์เซอร์ไม่รองรับการระบุตำแหน่ง";
+            }
+        });
+    </script>
+</body>
+</html>
